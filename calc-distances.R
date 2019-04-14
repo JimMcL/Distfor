@@ -57,6 +57,9 @@ CalcBlockPairwiseDistances <- function(shapes, fileName, firstRow, lastRow, idCo
                                    buildTxtReportFn(sprintf("Calculating distances to polygons %d:%d, block %d of %d\n", firstRow, lastRow, thisBlock, totalBlocks)))
   }
 
+  # Treat warnings as errors inside the loop
+  oldOpt <- options(warn = 2)
+  
   workDone <- 1
   # For each polygon in the block...
   for (i in firstRow:lastRow) {
@@ -77,32 +80,42 @@ CalcBlockPairwiseDistances <- function(shapes, fileName, firstRow, lastRow, idCo
     append <- TRUE
   }
   pb(close = TRUE)
+  
+  # Restore warnings
+  options(oldOpt)
 }
 
 # Calculates the rows remaining to be measured from an incomplete file.
 CalcRemainingRange <- function(block, nPolygons, outFile, sep = "\t") {
+  # Read the file
   old <- fread(file = outFile, sep = sep, header = FALSE)
   
   # Sanity check
   if (ncol(old) != 3 || class(old[[1]]) != "integer" || class(old[[2]]) != "integer" || class(old[[3]]) != "numeric")
-    stop(sprintf("Invalid data file, unexpected format: %s", fileName))
+    stop(sprintf("Invalid data file, unexpected format: %s", outFile))
   # Check the first line
   if (old[[1, 1]] != block[1])
-    stop(sprintf("Invalid data file, expected row 1 column 1 to be %d, was %d: %s", block[1], old[[1, 1]], fileName))
+    stop(sprintf("Invalid data file, expected row 1 column 1 to be %d, was %d: %s", block[1], old[[1, 1]], outFile))
   if (old[[1, 2]] != block[1] + 1)
-    stop(sprintf("Invalid data file, expected row 1 column 2 to be %d, was %d: %s", block[1] + 1, old[[1, 2]], fileName))
+    stop(sprintf("Invalid data file, expected row 1 column 2 to be %d, was %d: %s", block[1] + 1, old[[1, 2]], outFile))
   # Check the last line
   old <- old[nrow(old), ]
   if (old[[2]] != nPolygons || old[[1]] >= old[[2]])
-    stop(sprintf("Data file '%s' doesn't seem to match input or is corrupt,\n  expected the last row to look like \"<n>,%d,<distance>\"", fileName, nr))
+    stop(sprintf("Data file '%s' doesn't seem to match input or is corrupt,\n  expected the last row to look like \"<n> %d <distance>\"", outFile, nPolygons))
   
+  firstRow <- old[[1]] + 1
+  lastRow <- block[2]
+  if (firstRow == nPolygons)
+    stop(sprintf("Data file '%s' appears to be complete already", outFile))
+
   # Return the new range
-  c(firstRow <- old[[1]] + 1, lastRow <- block[2])
+  c(firstRow = firstRow, lastRow = lastRow)
 }
 
-CalcPairwiseDistances <- function(map, layer, idCol, outFile, thisBlock, totalBlocks, continue = FALSE) {
+CalcPairwiseDistances <- function(dsn, layer, idCol, outFile, thisBlock, totalBlocks, continue = FALSE) {
 
-  shp <- readOGR(dsn = map, layer = layer, verbose = FALSE)
+  shp <- readOGR(dsn = dsn, layer = layer, verbose = FALSE)
+  
   if (!idCol %in% names(shp@data))
     stop(sprintf("'%s' is not a valid column name\n", idCol))
   # Check for duplicate IDs
@@ -112,7 +125,7 @@ CalcPairwiseDistances <- function(map, layer, idCol, outFile, thisBlock, totalBl
   nPolygons <- nrow(shp)
   block <- BlockRange(thisBlock, totalBlocks, nPolygons)
   
-  if (continue) {
+  if (continue && file.exists(outFile)) {
     newblock <- CalcRemainingRange(block, nPolygons, outFile)
     cat(sprintf("Adding to existing file, skipping polygons %d to %d\n", block[1], newblock[1] - 1))
     block <- newblock
@@ -138,11 +151,11 @@ if (isGUI) {
   # EDIT THIS SECTION if you are running in a GUI
   # This is just an example
   continue <- FALSE
-  dsn <- "map"
-  layer <- "map2_conn4"
-  idCol <- "ID_bis"
-  thisBlock <- 23
-  totalBlocks <- 30
+  dsn <- "example/gadm36_KEN_shp"
+  layer <- "gadm36_KEN_1"
+  idCol <- "NAME_1"
+  thisBlock <- 1
+  totalBlocks <- 1
   # End of section to edit
   ####
   
@@ -153,9 +166,7 @@ if (isGUI) {
   # Process command line arguments
   args <- commandArgs(TRUE)
   cat("\n")
-  if (length(args) < 3 || length(args) > 6)
-    stop("Usage: [-continue] map layer idColumn [thisBlock totalBlocks]")
-  continue <- args[1] == "--continue"
+  continue <- length(args) >= 1 && args[1] == "--continue"
   if (continue)
     args <- tail(args, -1)
   if (!(length(args) == 3 || length(args) == 5))
