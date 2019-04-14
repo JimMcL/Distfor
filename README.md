@@ -8,7 +8,7 @@ You do not need to understand R programming to use this package, but you will ha
 
 ## Installation
 
-You must have R installed (https://www.r-project.org/). R is a free software environment which runs on a variety of computer systems. Download the `Distfor` scripts and copy them to your working folder/directory. 
+You must have R installed (https://www.r-project.org/). R is a free software environment which runs on a variety of computer systems. Download the `Distfor` package (or at least all of the `.R` scripts). Put the files in a convenient location.
 
 ## Running
 
