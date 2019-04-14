@@ -6,15 +6,18 @@ library(data.table, quietly = TRUE, verbose = FALSE)
 
 # Sources a file in the same directory as this script
 sourceFromPkg <- function(file) {
-  # Taken from stackoverflow answer https://stackoverflow.com/a/15373917
+  # Modified from stackoverflow answer https://stackoverflow.com/a/15373917
   pkgDir <- function() {
     cmdArgs <- commandArgs(trailingOnly = FALSE)
     fopt <- "--file="
     match <- grep(fopt, cmdArgs)
     if (length(match) > 0) {
       dirname(sub(fopt, "", cmdArgs[match]))
-    } else {
+    } else if ("ofile" %in% names(sys.frames()[[1]])) {
       dirname(sys.frames()[[1]]$ofile)
+    } else {
+      # Run selection in RStudio
+      "." # this is wrong, but at least it doesn't crash
     }
   }
   source(file.path(pkgDir(), file))
