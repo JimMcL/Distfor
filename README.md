@@ -72,15 +72,15 @@ First decide on the number of blocks you wish to break the task into. To get an 
 
 I have a shape file called `mymap`, polygons are in layer `patches`, and the ID column is named `patch_ID`. I have decided to break the job into 3 blocks, because I have access to 3 computers named A, B and C. Each computer has R installed and I have copied my shapefile and the `distfor` scripts to a working directory/folder on each computer. 
 
-On computer A, I run:
+On computer A, I calculate the distances for the first block of edges by running:
 
     Rscript calc-distances.R mymap patches patch_ID 1 3
 
-On computer B, I run:
+On computer B, I calculate the second block of distances:
 
     Rscript calc-distances.R mymap patches patch_ID 2 3
     
-On computer C, I run:
+On computer C, I calculate the third block of distances:
 
     Rscript calc-distances.R mymap patches patch_ID 3 3
     
