@@ -124,7 +124,7 @@ for a detailed description.
 If you do encounter this problem, there may be some simple steps you
 can take. Run with 64-bit R rather than 32-bit R. Try closing other
 programs which are consuming large amounts of RAM before running these
-scripts. When running on Windows, you may be able to increase the
+scripts. When running on Windows, you may be able to increase the R
 memory limits - look at the R help for `memory.limit`. Searching a
 site such as [stackoverflow](https://stackoverflow.com/) may provide
 additional answers (such as [this
