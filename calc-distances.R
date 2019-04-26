@@ -67,6 +67,8 @@ CalcBlockPairwiseDistances <- function(shapes, fileName, firstRow, lastRow, idCo
   # For each polygon in the block...
   for (i in firstRow:lastRow) {
     # Calculate distance to all polygons with ID > this polygon's id
+    # Save this set of results in a data frame then write them all out at once.
+    # This speeds up processing and simplifies handling of incomplete output files.
     js <- (i + 1):nr
     distances <- data.frame(nrow = length(js), ncol = 3)
     idx <- 1

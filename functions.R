@@ -1,9 +1,21 @@
 # Some functions used by other scripts
 
-BlockRange <- function(thisBlock, numBlocks, numPolygons){
-  compBlock <- (numPolygons * (numPolygons-1) / 2) / numBlocks
+# Returns the range of starting nodes for distance calculations in a single
+# block.
+#
+# @param thisBlock Number of the block being calculated. The first block is 1,
+#   and the last block is \code{numBlocks}.
+# @param numBlocks Total number of blocks that the calculation has been broken
+#   into.
+# @param numNodes The number of nodes in the network.
+#
+# @value A vector with two values, the indices of the first and last starting
+#   nodes in the block.
+BlockRange <- function(thisBlock, numBlocks, numNodes){
+  # Exact number of nodes required per block - may not be an integer
+  compBlock <- (numNodes * (numNodes-1) / 2) / numBlocks
   
-  nComp <- (numPolygons-1) : 1
+  nComp <- (numNodes-1) : 1
   c(
     ## the start column of this block = one more than the end column of the previous block
     if (thisBlock == 1)
@@ -15,8 +27,13 @@ BlockRange <- function(thisBlock, numBlocks, numPolygons){
   )
 }
 
+# Returns TRUE if running inside RStudio
 isRStudio <- function() Sys.getenv("RSTUDIO") == "1"
 
+
+#### Progress bar functions ####
+
+# Converts a time duration in seconds to a human readable string
 durationToS <- function(duration) {
   if (is.na(duration))
     return(NA)
