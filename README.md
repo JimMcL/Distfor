@@ -70,7 +70,7 @@ First decide on the number of blocks you wish to break the task into. To get an 
 
 ### Worked example
 
-I have a shape file called `mymap`, polygons are in layer `patches`, and the ID column is named `patch_ID`. I have decided to break the job into 3 blocks, because I have access to 3 computers called A, B and C. Each computer has R installed and I have copied my shapefile and the `distfor` scripts to a working directory/folder on each computer. 
+I have a shape file called `mymap`, polygons are in layer `patches`, and the ID column is named `patch_ID`. I have decided to break the job into 3 blocks, because I have access to 3 computers named A, B and C. Each computer has R installed and I have copied my shapefile and the `distfor` scripts to a working directory/folder on each computer. 
 
 On computer A, I run:
 
