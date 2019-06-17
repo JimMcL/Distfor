@@ -47,6 +47,8 @@ The output file named `<layer>_<block>_<totalBlocks>.txt ` will be created in th
 | block        | optional (default 1) | Block number to be processed, between 1 and total blocks | `thisBlock`     |
 | total blocks | optional (default 1) | Total number of blocks                                   | `totalBlocks`   |
 
+Start by deciding on the number of blocks you wish to break the task into. To get an idea of the total calculation time, you can start by processing a single block. After a while (seconds or minutes), a very crude estimate of the finishing time for the task is displayed. Once you know the expected finish time, you can decide whether it is worth splitting the task into multiple blocks to be run concurrently.
+
 ### `check-block-files.R`
 
 can be used to check the results of distance calculations for individual blocks. It performs some heuristic checks on the CSV files output by `calc-distances.R`. 
@@ -66,7 +68,7 @@ can be used to run some heuristic checks on a complete distances file. It checks
 |--------------|----------------------|----------------------------------------------------------|-----------------|
 | file         | required             | name of the complete distances file                      | `fileName`      |
 
-First decide on the number of blocks you wish to break the task into. To get an idea of the total calculation time, you can start by processing a single block. After a while (seconds or minutes), a very crude estimate of the finishing time for the task is displayed. Once you know the expected finish time, you can decide whether it is worth splitting the task into multiple blocks to be run concurrently.
+
 
 <a name="workedexample"/>
 
