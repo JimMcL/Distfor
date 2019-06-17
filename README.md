@@ -68,7 +68,11 @@ can be used to run some heuristic checks on a complete distances file. It checks
 |--------------|----------------------|----------------------------------------------------------|-----------------|
 | file         | required             | name of the complete distances file                      | `fileName`      |
 
+If you see the error message:
 
+   `Error in unique.default(distances[[2]], nmax = nmax) : hash table is full`
+
+it probably means that the results file you are checking is not a complete distances file.
 
 <a name="workedexample"/>
 
