@@ -27,7 +27,7 @@ You must have R installed (https://www.r-project.org/). R is a free software env
 
 ## Running
 
-You can run the scripts from a terminal (using Rscript) or from a GUI such as RStudio. When running from a terminal, script parameters are specified on the command line. When running from a GUI, parameters are specified by editing the script to set variable values. The section to be edited is at the end of each script, and is marked with the comment `EDIT THIS SECTION`.
+You can run the scripts from a terminal (using Rscript) or from an integrated development environment (IDE) such as RStudio. When running from a terminal, script parameters are specified on the command line. When running from an IDE, parameters are specified by editing the script to set variable values. The section to be edited is at the end of each script, and is marked with the comment `EDIT THIS SECTION`.
 There are 3 top-level scripts.
 
 ### `calc-distances.R`
@@ -78,37 +78,46 @@ it probably means that the results file you are checking is not a complete dista
 
 ### Worked example
 
-I have a shape file called `mymap`, polygons are in layer `patches`, and the ID column is named `patch_ID`. I have decided to break the job into 3 blocks, because I have access to 3 computers named A, B and C. Each computer has R installed and I have copied my shapefile and the `distfor` scripts to a working directory/folder on each computer. 
+I have a shape file called `eg_map`, polygons are in layer `example_Distfor`, and the ID column is named `ID_bis`. I have decided to break the job into 3 blocks, because I have access to 3 computers named A, B and C. Each computer has R installed and I have copied my shapefile and the `distfor` scripts to a working directory/folder on each computer. This example demonstrates running the scripts from the command line.
+
+The shapefile for this example is included in the GitHub repository. To run the example without copying any files, first `cd` to the `examples` subdirectory, then prepend "../" to each of the script names in the following commands. For example, the first command would be modified to 
+
+    Rscript ../calc-distances.R eg_map example_Distfor ID_bis 1 3
+
+---
 
 On computer A, I calculate the distances for the first block of edges by running:
 
-    Rscript calc-distances.R mymap patches patch_ID 1 3
+    Rscript calc-distances.R eg_map example_Distfor ID_bis 1 3
 
 On computer B, I calculate the second block of distances:
 
-    Rscript calc-distances.R mymap patches patch_ID 2 3
+    Rscript calc-distances.R eg_map example_Distfor ID_bis 2 3
     
 On computer C, I calculate the third block of distances:
 
-    Rscript calc-distances.R mymap patches patch_ID 3 3
+    Rscript calc-distances.R eg_map example_Distfor ID_bis 3 3
     
 Computer C crashed part-way through the calculation. Rather than re-run the entire block 3 calculation, I continued the calculation from where it had finished, by running the command:
 
-    Rscript --continue calc-distances.R mymap patches patch_ID 3 3
+    Rscript --continue calc-distances.R eg_map example_Distfor ID_bis 3 3
 
-I then copied the file `patches_002_003.txt` from computer B to computer A, and file `patches_003_003.txt` from computer C, so now I have `patches_001_003.txt`, `patches_002_003.txt` and `patches_003_003.txt` on computer A. To check that the files are complete, I run (on computer A):
+I then copied the file `example_Distfor_002_003.txt` from computer B to computer A, and file `example_Distfor_003_003.txt` from computer C, so now I have `example_Distfor_001_003.txt`, `example_Distfor_002_003.txt` and `example_Distfor_003_003.txt` on computer A. To check that the files are complete, I run (on computer A):
 
-    Rscript check-block-files.R mymap patches patch_ID
+    Rscript check-block-files.R eg_map example_Distfor ID_bis
     
 and it doesn't report any errors. Computer A is a Windows PC, so to create the complete distances file I run:
 
-    copy /b patches_*.txt distances.csv
+    copy /b example_Distfor-*.txt distances.csv
 
 If I was running on a Linux or MacOS computer, I would have used the command:
 
-    cat patches_*.txt >distances.csv
+    cat example_Distfor_*.txt >distances.csv
     
-I now have my complete distances file, `distances.csv`, ready to use as input to Conefor.
+I now have my complete distances file, `distances.csv`, ready to use as input to Conefor. I can optionally run a final check on the coplete distances file as follows:
+
+    Rscript check-full-results-file.R distances.csv
+
 
 <a name="memorylimits"/>
 

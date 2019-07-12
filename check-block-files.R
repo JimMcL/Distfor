@@ -131,10 +131,10 @@ isGUI <- isRStudio()
 if (isGUI) {
   
   ####
-  # EDIT THIS SECTION if you are running in a GUI
+  # EDIT THIS SECTION if you are running in a GUI/IDE
   # This is just an example
-  dsn <- "map"
-  layer <- "map2_conn4"
+  dsn <- "example/eg_map"
+  layer <- "example_Distfor"
   idCol <- "ID_bis"
   dir <- "results"
   # End of section to edit

@@ -121,8 +121,17 @@ CalcPairwiseDistances <- function(dsn, layer, idCol, outFile, thisBlock, totalBl
 
   shp <- readOGR(dsn = dsn, layer = layer, verbose = FALSE)
   
-  if (!idCol %in% names(shp@data))
-    stop(sprintf("'%s' is not a valid column name\n", idCol))
+  colNames <- names(shp@data)
+  if (!idCol %in% colNames) {
+    if (length(colNames) == 0)
+      msg <- "There are no columns in this layer."
+    else if(length(colNames) == 1)
+      msg <- sprintf("The only column is named '%s'.", colNames)
+    else
+      msg <- sprintf("Available columns are: %s\n", paste(names(shp@data), collapse = ", "))
+    stop(paste(sprintf("'%s' is not a valid column name.", idCol), msg, collapse = " "))
+  }
+  
   # Check for duplicate IDs
   ti <- table(shp@data[[idCol]])
   if (sum(ti > 1) > 0)
@@ -153,12 +162,12 @@ isGUI <- isRStudio()
 if (isGUI) {
   
   ####
-  # EDIT THIS SECTION if you are running in a GUI
+  # EDIT THIS SECTION if you are running in a GUI/IDE
   # This is just an example
   continue <- FALSE
-  dsn <- "example/gadm36_KEN_shp"
-  layer <- "gadm36_KEN_1"
-  idCol <- "NAME_1"
+  dsn <- "example/eg_map"
+  layer <- "example_Distfor"
+  idCol <- "ID_bis"
   thisBlock <- 1
   totalBlocks <- 1
   # End of section to edit

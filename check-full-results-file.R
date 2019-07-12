@@ -84,9 +84,9 @@ if (!isRStudio()) {
 } else {
   
   ####
-  # EDIT THIS SECTION if you are running in a GUI
+  # EDIT THIS SECTION if you are running in a GUI/IDE
   # This is just an example
-  fileName <- "map2_conn4-full.txt"
+  fileName <- "distances.txt"
   # End of section to edit
   ####
 
