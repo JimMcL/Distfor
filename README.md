@@ -80,7 +80,7 @@ it probably means that the results file you are checking is not a complete dista
 
 I have a shape file called `eg_map`, polygons are in layer `example_Distfor`, and the ID column is named `ID_bis`. I have decided to break the job into 3 blocks, because I have access to 3 computers named A, B and C. Each computer has R installed and I have copied my shapefile and the `distfor` scripts to a working directory/folder on each computer. This example demonstrates running the scripts from the command line.
 
-The shapefile for this example is included in the GitHub repository. To run the example without copying any files, first `cd` to the `examples` subdirectory, then prepend "../" to each of the script names in the following commands. For example, the first command would be modified to 
+The shapefile for this example is included in the GitHub repository. To simply run the provided example using the directory structure after installing `distfor`, first `cd` to the `examples` subdirectory, then prepend "../" to each of the script names in the following commands. For example, the first command would be modified to 
 
     Rscript ../calc-distances.R eg_map example_Distfor ID_bis 1 3
 
@@ -110,7 +110,7 @@ and it doesn't report any errors. Computer A is a Windows PC, so to create the c
 
     copy /b example_Distfor-*.txt distances.csv
 
-If I was running on a Linux or MacOS computer, I would have used the command:
+If I were running on a Linux or MacOS computer, I would have used the command:
 
     cat example_Distfor_*.txt >distances.csv
     
