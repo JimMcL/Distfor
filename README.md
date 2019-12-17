@@ -4,7 +4,7 @@ This package contains R scripts for calculating minimum distances between all pa
 
 Calculating large numbers of distances is a time consuming operation. If you have `n` polygons, there are `n * (n - 1) / 2` distances to be calculated. Depending on the number of polygons and the speed of your computer(s), the total calculation time might be days or even weeks! Using `Distfor`, you can choose to run the process in a single block, or you can break it into multiple blocks. Multiple blocks can be run simultaneously on the same or different computers, thereby reducing the elapsed time for the total operation. 
 
-You do not need to understand R programming to use this package, but you will have to learn how to run R scripts.
+You do not need to understand R programming to use this package, but you do need to know how to run R scripts.
 
 <!-- TODO include this once there's something to cite
 If you use this package in published scientific research, please cite: Cadavid-Florez, L. et al. (2019), The role of isolated trees and small patches on landscape connectivity for birds in a neotropical rural landscape, Nature
